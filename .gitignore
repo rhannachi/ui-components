@@ -1,0 +1,71 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/dist
+/tmp
+/out-tsc
+
+# dependencies
+**/node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.angular
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/wc-coverage
+/testresults
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+/.history
+junit.xml
+finastra-design-system.iml
+
+# System Files
+.DS_Store
+Thumbs.db
+
+
+# build
+/_site/
+/packages/fds-components-web/**/*.js
+/packages/fds-components-web/**/*.js.map
+/packages/fds-components-web/**/*.d.ts
+/packages/fds-components-web/**/*.css
+/packages/fds-components-web/**/*.css.map
+/packages/fds-components-web/**/*.js
+/packages/fds-components-web/**/*.js.map
+/packages/fds-components-web/**/*.tgz
+/packages/fds-components-web/**/*.css.ts
+/packages/fds-components-web/**/dist
+/packages/fds-components-web/**/package-lock.json
+**/*.tsbuildinfo*
+packages/fds-theme-web/prebuilt/**
+packages/fds-theme-tippy/dist
+compile
+storybook-static
+**/coverage
+**/tsc-out
+!/packages/fds-components-web/**/*.stories.js
+/packages/fds-components-web/**/stories/custom-element.json
+/packages/fds-components-web/**/stories/sb-generated
+build-storybook.log
+packages/fds-tokens/dist
