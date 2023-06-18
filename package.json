@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "storybook dev -p 6006",
-    "build": "storybook build",
+    "start": "storybook dev -p 6006 -s public",
+    "build": "storybook build -s public",
     "ts:check": "tsc --noemit",
     "lint": "yarn eslint src --ext .ts,.tsx",
     "lint:fix": "eslint --fix src --ext .ts,.tsx",
     "test:ci": "start-server-and-test start 6006 test",
-    "test": "yarn test-storybook"
+    "test": "yarn test-storybook",
+    "publish:chromatic": "yarn build && chromatic --project-token=chpt_bc239c8ebb2e4d8 --storybook-build-dir storybook-static"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -31,6 +32,7 @@
     "@typescript-eslint/eslint-plugin": "^5.59.11",
     "@typescript-eslint/parser": "^5.59.11",
     "autoprefixer": "^10.4.14",
+    "chromatic": "^6.19.8",
     "eslint": "^8.43.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
@@ -44,5 +46,7 @@
   },
   "engines": {
     "node": ">=16.19.1"
-  }
+  },
+  "readme": "ERROR: No README data found!",
+  "_id": "storybook-react@1.0.0"
 }
