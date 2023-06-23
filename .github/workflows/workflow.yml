@@ -1,0 +1,158 @@
+name: GitHub Workflows (Lint, Test, Build) Actions
+
+# run workflow manually or during PR
+on: [push, workflow_dispatch]
+
+# Allow one concurrent deployment
+# concurrency:
+#   group: ${{ github.ref }}
+#   cancel-in-progress: true
+
+jobs:
+
+  ################################## SECURITY #########################################
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        continue-on-error: true # To make sure that SARIF upload gets called
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --sarif-file-output=snyk.sarif
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: snyk.sarif
+
+  ################################## INSTALL-DEP #########################################
+
+  install-dependencies:
+    runs-on: ubuntu-latest
+    name: Install dependencies
+    steps:
+      - uses: actions/checkout@v3
+      - name: Step Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: zip node_modules
+        run: tar -czf node_modules.tar.gz ./node_modules
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: my_node_modules_artifact
+          path: node_modules.tar.gz
+
+################################## LINT & TEST #########################################
+
+  lint:
+    needs: [install-dependencies]
+    runs-on: ubuntu-latest
+    name: Lint and check TS
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Step Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: yarn
+
+      - name: Load artifact node_modules
+        uses: actions/download-artifact@v3
+        with:
+          name: my_node_modules_artifact
+
+      - name: unzip node_modules
+        run: tar -xzf node_modules.tar.gz
+
+      - name: Lint and ts check
+        run: |
+          yarn ts:check
+          yarn lint
+#      - name: Dependency validation
+#        run: yarn dependency:validation
+
+  test:
+    needs: [install-dependencies]
+    runs-on: ubuntu-latest
+    name: Test
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Step Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: yarn
+
+      - name: Load artifact node_modules
+        uses: actions/download-artifact@v3
+        with:
+          name: my_node_modules_artifact
+
+      - name: unzip node_modules
+        run: tar -xzf node_modules.tar.gz
+
+      # - name: Test Storybook
+      #  run: yarn test:storybook
+
+      - name: Test CI
+        run: yarn test:ci
+
+#      - name: Test Coverage
+#        run: yarn test:coverage
+
+#      - name: zip coverage
+#        run: tar -czf coverage.tar.gz ./coverage
+#
+#      - name: Upload artifact coverage
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: coverage_artifact
+#          path: coverage.tar.gz
+#
+#      - name: Upload coverage to Codecov
+#        uses: codecov/codecov-action@v3
+#        with:
+#          token: ${{ secrets.CODECOV_TOKEN }}
+#          directory: ./coverage/
+#          fail_ci_if_error: true
+#          files: ./coverage/clover.xml
+#          verbose: true
+
+  ###################################### BUILD #####################################
+
+  build:
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    name: Build Storybook
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Step Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: yarn
+
+      - name: Load artifact node_modules
+        uses: actions/download-artifact@v3
+        with:
+          name: my_node_modules_artifact
+
+      - name: unzip node_modules
+        run: tar -xzf node_modules.tar.gz
+
+      - name: Build Storybook
+        run: yarn build

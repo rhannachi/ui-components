@@ -46,7 +46,5 @@
   },
   "engines": {
     "node": ">=16.19.1"
-  },
-  "readme": "ERROR: No README data found!",
-  "_id": "storybook-react@1.0.0"
+  }
 }
