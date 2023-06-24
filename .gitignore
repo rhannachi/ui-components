@@ -61,7 +61,6 @@ Thumbs.db
 packages/fds-theme-web/prebuilt/**
 packages/fds-theme-tippy/dist
 compile
-storybook-static
 **/coverage
 **/tsc-out
 !/packages/fds-components-web/**/*.stories.js
@@ -69,3 +68,4 @@ storybook-static
 /packages/fds-components-web/**/stories/sb-generated
 build-storybook.log
 packages/fds-tokens/dist
+storybook-static

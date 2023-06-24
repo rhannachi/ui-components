@@ -38,11 +38,11 @@ jobs:
       - name: Step Node
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '16.x'
           cache: yarn
 
       - name: Install dependencies
-        run: yarn install
+        run: rm yarn.lock && yarn install
 
       - name: zip node_modules
         run: tar -czf node_modules.tar.gz ./node_modules
@@ -53,7 +53,7 @@ jobs:
           name: my_node_modules_artifact
           path: node_modules.tar.gz
 
-################################## LINT & TEST #########################################
+################################## LINT #########################################
 
   lint:
     needs: [install-dependencies]
@@ -65,7 +65,7 @@ jobs:
       - name: Step Node
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '16.x'
           cache: yarn
 
       - name: Load artifact node_modules
@@ -83,17 +83,20 @@ jobs:
 #      - name: Dependency validation
 #        run: yarn dependency:validation
 
-  test:
-    needs: [install-dependencies]
+
+  ###################################### BUILD #####################################
+
+  build:
+    needs: [lint]
     runs-on: ubuntu-latest
-    name: Test
+    name: Build Storybook
     steps:
       - uses: actions/checkout@v3
 
       - name: Step Node
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '16.x'
           cache: yarn
 
       - name: Load artifact node_modules
@@ -104,11 +107,58 @@ jobs:
       - name: unzip node_modules
         run: tar -xzf node_modules.tar.gz
 
-      # - name: Test Storybook
-      #  run: yarn test:storybook
+      - name: Build Storybook
+        run: yarn build
+
+      - name: zip storybook-static
+        run: tar -czf storybook-static.tar.gz ./storybook-static
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: my_storybook-static_artifact
+          path: storybook-static.tar.gz
+
+  ################################## TEST #########################################
+
+  test:
+    needs: [build]
+    runs-on: ubuntu-latest
+    name: Test
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Step Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          cache: yarn
+
+      - name: Load artifact node_modules
+        uses: actions/download-artifact@v3
+        with:
+          name: my_node_modules_artifact
+
+      - name: unzip node_modules
+        run: tar -xzf node_modules.tar.gz
+
+      - name: Load artifact storybook-static
+        uses: actions/download-artifact@v3
+        with:
+          name: my_storybook-static_artifact
+
+      - name: unzip storybook-static
+        run: tar -xzf storybook-static.tar.gz
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps
 
       - name: Test CI
-        run: yarn test:ci
+        run: |
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx http-server storybook-static --port 6006 --silent" \
+            "npx wait-on tcp:6006 && yarn test-storybook"
 
 #      - name: Test Coverage
 #        run: yarn test:coverage
@@ -130,29 +180,3 @@ jobs:
 #          fail_ci_if_error: true
 #          files: ./coverage/clover.xml
 #          verbose: true
-
-  ###################################### BUILD #####################################
-
-  build:
-    needs: [lint, test]
-    runs-on: ubuntu-latest
-    name: Build Storybook
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Step Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          cache: yarn
-
-      - name: Load artifact node_modules
-        uses: actions/download-artifact@v3
-        with:
-          name: my_node_modules_artifact
-
-      - name: unzip node_modules
-        run: tar -xzf node_modules.tar.gz
-
-      - name: Build Storybook
-        run: yarn build
