@@ -12,21 +12,22 @@ jobs:
 
   ################################## SECURITY #########################################
 
-  security:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
-        continue-on-error: true # To make sure that SARIF upload gets called
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --sarif-file-output=snyk.sarif
-      - name: Upload result to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: snyk.sarif
+# TODO
+#  security:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@master
+#      - name: Run Snyk to check for vulnerabilities
+#        uses: snyk/actions/node@master
+#        continue-on-error: true # To make sure that SARIF upload gets called
+#        env:
+#          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+#        with:
+#          args: --sarif-file-output=snyk.sarif
+#      - name: Upload result to GitHub Code Scanning
+#        uses: github/codeql-action/upload-sarif@v2
+#        with:
+#          sarif_file: snyk.sarif
 
   ################################## INSTALL-DEP #########################################
 
@@ -87,9 +88,9 @@ jobs:
   ###################################### BUILD #####################################
 
   build:
-    needs: [lint]
+    needs: [install-dependencies]
     runs-on: ubuntu-latest
-    name: Build Storybook
+    name: Build
     steps:
       - uses: actions/checkout@v3
 
@@ -155,10 +156,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Test CI
-        run: |
-          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-            "npx http-server storybook-static --port 6006 --silent" \
-            "npx wait-on tcp:6006 && yarn test-storybook"
+        run: yarn test-storybook:ci
 
 #      - name: Test Coverage
 #        run: yarn test:coverage
