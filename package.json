@@ -10,6 +10,7 @@
     "lint:fix": "eslint --fix src --ext .ts,.tsx",
     "test-storybook:ci": "npx concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx http-server storybook-static --port 6006 --silent\" \"npx wait-on tcp:6006 && yarn test-storybook\"",
     "test": "yarn test-storybook",
+    "test:coverage": "yarn test-storybook --coverage",
     "publish:chromatic": "yarn build && chromatic --project-token=chpt_bc239c8ebb2e4d8 --storybook-build-dir storybook-static"
   },
   "dependencies": {
@@ -18,6 +19,7 @@
   },
   "devDependencies": {
     "@storybook/addon-actions": "^7.0.22",
+    "@storybook/addon-coverage": "^0.0.8",
     "@storybook/addon-essentials": "^7.0.22",
     "@storybook/addon-interactions": "^7.0.22",
     "@storybook/addon-links": "^7.0.22",
