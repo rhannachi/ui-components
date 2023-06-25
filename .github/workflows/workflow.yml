@@ -14,6 +14,8 @@ jobs:
 
   security:
     runs-on: ubuntu-latest
+    environment:
+      name: Production
     steps:
       - uses: actions/checkout@master
       - name: Run Snyk to check for vulnerabilities
@@ -38,11 +40,11 @@ jobs:
       - name: Step Node
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '16.x'
           cache: yarn
 
       - name: Install dependencies
-        run: yarn install
+        run: yarn install --no-lockfile
 
       - name: zip node_modules
         run: tar -czf node_modules.tar.gz ./node_modules
@@ -53,7 +55,7 @@ jobs:
           name: my_node_modules_artifact
           path: node_modules.tar.gz
 
-################################## LINT & TEST #########################################
+################################## LINT #########################################
 
   lint:
     needs: [install-dependencies]
@@ -65,7 +67,7 @@ jobs:
       - name: Step Node
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '16.x'
           cache: yarn
 
       - name: Load artifact node_modules
@@ -83,67 +85,20 @@ jobs:
 #      - name: Dependency validation
 #        run: yarn dependency:validation
 
-  test:
-    needs: [install-dependencies]
-    runs-on: ubuntu-latest
-    name: Test
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Step Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          cache: yarn
-
-      - name: Load artifact node_modules
-        uses: actions/download-artifact@v3
-        with:
-          name: my_node_modules_artifact
-
-      - name: unzip node_modules
-        run: tar -xzf node_modules.tar.gz
-
-      # - name: Test Storybook
-      #  run: yarn test:storybook
-
-      - name: Test CI
-        run: yarn test:ci
-
-#      - name: Test Coverage
-#        run: yarn test:coverage
-
-#      - name: zip coverage
-#        run: tar -czf coverage.tar.gz ./coverage
-#
-#      - name: Upload artifact coverage
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: coverage_artifact
-#          path: coverage.tar.gz
-#
-#      - name: Upload coverage to Codecov
-#        uses: codecov/codecov-action@v3
-#        with:
-#          token: ${{ secrets.CODECOV_TOKEN }}
-#          directory: ./coverage/
-#          fail_ci_if_error: true
-#          files: ./coverage/clover.xml
-#          verbose: true
 
   ###################################### BUILD #####################################
 
   build:
-    needs: [lint, test]
+    needs: [install-dependencies]
     runs-on: ubuntu-latest
-    name: Build Storybook
+    name: Build
     steps:
       - uses: actions/checkout@v3
 
       - name: Step Node
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '16.x'
           cache: yarn
 
       - name: Load artifact node_modules
@@ -156,3 +111,70 @@ jobs:
 
       - name: Build Storybook
         run: yarn build
+
+      - name: zip storybook-static
+        run: tar -czf storybook-static.tar.gz ./storybook-static
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: my_storybook-static_artifact
+          path: storybook-static.tar.gz
+
+  ################################## TEST #########################################
+
+  test:
+    needs: [build]
+    environment:
+      name: Production
+    runs-on: ubuntu-latest
+    name: Test
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Step Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          cache: yarn
+
+      - name: Load artifact node_modules
+        uses: actions/download-artifact@v3
+        with:
+          name: my_node_modules_artifact
+
+      - name: unzip node_modules
+        run: tar -xzf node_modules.tar.gz
+
+      - name: Load artifact storybook-static
+        uses: actions/download-artifact@v3
+        with:
+          name: my_storybook-static_artifact
+
+      - name: unzip storybook-static
+        run: tar -xzf storybook-static.tar.gz
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
+      - name: Test CI
+        run: yarn test-coverage:ci
+
+      - name: zip coverage
+        run: tar -czf coverage.tar.gz ./coverage
+
+      - name: Upload artifact coverage
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage_artifact
+          path: coverage.tar.gz
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./coverage/storybook
+          fail_ci_if_error: true
+          files: ./coverage/storybook/coverage-storybook.json
+          verbose: true
