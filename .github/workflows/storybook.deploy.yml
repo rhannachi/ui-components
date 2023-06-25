@@ -30,14 +30,14 @@ jobs:
       - name: Step Node
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '16.x'
           cache: yarn
       - name: Install dependencies
-        run: yarn
+        run: yarn install --no-lockfile
         # 👇 Adds Chromatic as a step in the workflow
       - name: Publish to Chromatic
         uses: chromaui/action@v1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          buildScriptName: build:storybook
+          buildScriptName: build
