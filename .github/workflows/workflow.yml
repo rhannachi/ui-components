@@ -174,7 +174,7 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./coverage/
+          directory: ./coverage/storybook
           fail_ci_if_error: true
-          files: ./coverage/clover.xml
+          files: ./coverage/storybook/coverage-storybook.json
           verbose: true
