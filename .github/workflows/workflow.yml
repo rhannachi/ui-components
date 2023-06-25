@@ -156,7 +156,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Test CI
-        run: yarn test-storybook:ci
+        run: yarn test-coverage:ci
 
 #      - name: Test Coverage
 #        run: yarn test:coverage
