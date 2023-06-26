@@ -1,6 +1,6 @@
 import { within, userEvent } from "@storybook/testing-library"
 import { expect } from "@storybook/jest"
-import Incrementor  from "./Button"
+import Incrementor  from "./Incrementor"
 import { Meta, StoryObj } from "@storybook/react"
 
 const meta: Meta<typeof Incrementor> = {
