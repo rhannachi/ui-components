@@ -1,3 +1,10 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+input:checked + div {
+  @apply border-cyan-400;
+}
+input:checked + div svg {
+  @apply block;
+}
