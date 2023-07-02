@@ -5,6 +5,7 @@ import Incrementor from "../../examples/Incrementor/Incrementor"
 const meta: Meta<typeof Incrementor> = {
   component: Task,
   title: 'molecules/Task',
+  decorators: [(story) => <div className="bg-cyan-400 p-6">{story()}</div>],
 }
 export default meta
 type Story = StoryObj<typeof Task>;

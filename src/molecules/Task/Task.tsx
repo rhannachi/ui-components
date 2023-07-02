@@ -1,6 +1,7 @@
 import React from 'react'
 import { Icon } from "../../atoms/Icon/Icon"
 import Checkbox from "../../atoms/Checkbox/Checkbox"
+import clsx from "clsx"
 
 type TaskProps = {
   task: {
@@ -24,13 +25,14 @@ const Task = ({ task: { id, title, state }, onPinTask, onArchiveTask }: TaskProp
         onChange={() => onArchiveTask(id)}
       />
 
-      <label className="w-full text-gray-500" htmlFor="title">
+      <label className="w-full" htmlFor="title">
         <input
           type="text"
           value={title}
           readOnly={true}
           name="title"
           placeholder="Input title"
+          className={clsx(state === "TASK_ARCHIVED" ? 'line-through text-gray-200' : 'text-gray-500')}
         />
       </label>
 
