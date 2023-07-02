@@ -24,24 +24,6 @@ const Task = ({ task: { id, title, state }, onPinTask, onArchiveTask }: TaskProp
         onChange={() => onArchiveTask(id)}
       />
 
-      {/*<label*/}
-      {/*  htmlFor="checked"*/}
-      {/*  aria-label={`archiveTask-${id}`}*/}
-      {/*  className="mr-4"*/}
-      {/*>*/}
-      {/*  <input*/}
-      {/*    type="checkbox"*/}
-      {/*    disabled={true}*/}
-      {/*    name="checked"*/}
-      {/*    id={`archiveTask-${id}`}*/}
-      {/*    checked={state === "TASK_ARCHIVED"}*/}
-      {/*  />*/}
-      {/*  <span*/}
-      {/*    className="checkbox-custom" // TODO*/}
-      {/*    onClick={() => onArchiveTask(id)}*/}
-      {/*  />*/}
-      {/*</label>*/}
-
       <label className="w-full text-gray-500" htmlFor="title">
         <input
           type="text"
