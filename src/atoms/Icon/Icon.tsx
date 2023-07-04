@@ -64,7 +64,7 @@ const importIcon = async (icon: IconType): Promise<string | { src: string }> => 
   return (await import(`./svgs/${icon}.svg`)).default
 }
 
-export const Icon = ({ icon, size = 'base', color = 'fill-black', className = '' }: IconProps) => {
+const Icon = ({ icon, size = 'base', color = 'fill-black', className = '' }: IconProps) => {
   const [iconSrc, setIconSrc] = useState<string>('')
 
   useEffect(() => {
@@ -88,3 +88,5 @@ export const Icon = ({ icon, size = 'base', color = 'fill-black', className = ''
     />
   )
 }
+
+export default Icon

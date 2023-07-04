@@ -1,9 +1,9 @@
 import React from 'react'
-import { Icon } from "../../atoms/Icon/Icon"
-import Checkbox from "../../atoms/Checkbox/Checkbox"
+import Checkbox from "@/atoms/Checkbox/Checkbox"
+import Icon from "@/atoms/Icon/Icon"
 import clsx from "clsx"
 
-type TaskProps = {
+export type TaskProps = {
   task: {
     id: string,
     title: string,
@@ -16,7 +16,7 @@ type TaskProps = {
 const Task = ({ task: { id, title, state }, onPinTask, onArchiveTask }: TaskProps) => {
 
   return (
-    <div className="flex flex-row p-3 bg-white rounded-sm border-2 border-cyan-400">
+    <div className="flex flex-row p-3 bg-white border-2 border-gray-50">
 
       <Checkbox
         className="mr-4"
