@@ -1,7 +1,7 @@
 import React from 'react'
-import Checkbox from "@/atoms/Checkbox/Checkbox"
-import Icon from "@/atoms/Icon/Icon"
 import clsx from "clsx"
+import { Checkbox } from "@/atoms/Checkbox"
+import { Icon } from "@/atoms/Icon"
 
 export type TaskProps = {
   task: {
@@ -13,7 +13,7 @@ export type TaskProps = {
   onPinTask: (id: string) => void
 }
 
-const Task = ({ task: { id, title, state }, onPinTask, onArchiveTask }: TaskProps) => {
+export const Task = ({ task: { id, title, state }, onPinTask, onArchiveTask }: TaskProps) => {
 
   return (
     <div className="flex flex-row p-3 bg-white border-2 border-gray-50">
@@ -56,4 +56,3 @@ const Task = ({ task: { id, title, state }, onPinTask, onArchiveTask }: TaskProp
   )
 }
 
-export default Task

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import clsx from 'clsx'
 import { ReactSVG } from 'react-svg'
+import clsx from 'clsx'
 
 /* SIZES */
 export const SIZES_ICON = ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', '8xl'] as const
@@ -64,7 +64,7 @@ const importIcon = async (icon: IconType): Promise<string | { src: string }> => 
   return (await import(`./svgs/${icon}.svg`)).default
 }
 
-const Icon = ({ icon, size = 'base', color = 'fill-black', className = '' }: IconProps) => {
+export const Icon = ({ icon, size = 'base', color = 'fill-black', className = '' }: IconProps) => {
   const [iconSrc, setIconSrc] = useState<string>('')
 
   useEffect(() => {
@@ -89,4 +89,3 @@ const Icon = ({ icon, size = 'base', color = 'fill-black', className = '' }: Ico
   )
 }
 
-export default Icon

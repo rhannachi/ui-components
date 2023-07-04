@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react"
-import TaskSkeleton from "@/molecules/TaskSkeleton/TaskSkeleton"
+import { TaskSkeleton } from "./TaskSkeleton"
 
 const meta: Meta<typeof TaskSkeleton> = {
   component: TaskSkeleton,

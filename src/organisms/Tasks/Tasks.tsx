@@ -1,7 +1,7 @@
 import React from 'react'
-import Task, { TaskProps } from "@/molecules/Task/Task"
-import TaskSkeleton from "@/molecules/TaskSkeleton/TaskSkeleton"
-import Icon from "@/atoms/Icon/Icon"
+import { Task, TaskProps } from "@/molecules/Task"
+import { TaskSkeleton } from "@/molecules/TaskSkeleton"
+import { Icon } from "@/atoms/Icon"
 
 type TasksProps = Pick<TaskProps, 'onPinTask' | 'onArchiveTask'> & {
   tasks: TaskProps['task'][],

@@ -47,7 +47,7 @@ type CheckboxProps = Partial<Pick<HTMLInputElement, 'disabled' | 'checked' >> & 
   className?: string
 }
 
-const Checkbox = ({ checked = false, size = 'base', color = 'cyan', label, onChange, className, disabled, ...other }: CheckboxProps) => {
+export const Checkbox = ({ checked = false, size = 'base', color = 'cyan', label, onChange, className, disabled, ...other }: CheckboxProps) => {
   const [myChecked, setMyChecked] = useState<boolean>(checked)
 
   useEffect( () => setMyChecked(checked), [checked] )
@@ -77,4 +77,3 @@ const Checkbox = ({ checked = false, size = 'base', color = 'cyan', label, onCha
   )
 }
 
-export default Checkbox

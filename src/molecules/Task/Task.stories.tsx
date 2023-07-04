@@ -1,5 +1,5 @@
-import Task from './Task'
 import { Meta, StoryObj } from "@storybook/react"
+import { Task } from './Task'
 
 const meta: Meta<typeof Task> = {
   component: Task,

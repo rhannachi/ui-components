@@ -1,4 +1,4 @@
-const TaskSkeleton = () => (
+export const TaskSkeleton = () => (
   <div className="bg-white border-2 border-gray-50 p-3 w-full mx-auto">
     <div className="animate-pulse flex space-x-4">
 
@@ -26,5 +26,3 @@ const TaskSkeleton = () => (
     </div>
   </div>
 )
-
-export default TaskSkeleton
