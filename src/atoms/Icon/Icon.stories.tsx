@@ -1,9 +1,10 @@
 import { Meta, StoryObj } from "@storybook/react"
-import { Icon, COLORS_ICON, SIZES_ICON, ICONS } from './Icon'
+import Icon, { COLORS_ICON, SIZES_ICON, ICONS } from './Icon'
 
 const meta: Meta<typeof Icon> = {
   component: Icon,
   title: 'atoms/Icon',
+  decorators: [(story) => <div className="p-14">{story()}</div>],
 }
 export default meta
 type Story = StoryObj<typeof Icon>;

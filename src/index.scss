@@ -2,9 +2,10 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-//input:checked + div {
-//  @apply border-cyan-400;
-//}
 input:checked + div svg {
   @apply block;
+}
+
+body {
+  padding: 0px !important;
 }

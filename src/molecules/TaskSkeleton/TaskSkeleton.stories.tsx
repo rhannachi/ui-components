@@ -4,7 +4,7 @@ import TaskSkeleton from "@/molecules/TaskSkeleton/TaskSkeleton"
 const meta: Meta<typeof TaskSkeleton> = {
   component: TaskSkeleton,
   title: 'molecules/TaskSkeleton',
-  decorators: [(story) => <div className="p-10">{story()}</div>],
+  decorators: [(story) => <div className="bg-cyan-400 p-14">{story()}</div>],
 }
 export default meta
 type Story = StoryObj<typeof TaskSkeleton>;

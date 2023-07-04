@@ -5,7 +5,7 @@ import { Meta, StoryObj } from "@storybook/react"
 const meta: Meta<typeof Tasks> = {
   component: Tasks,
   title: 'organisms/Tasks',
-  decorators: [(story) => <div className="bg-cyan-400 p-10">{story()}</div>],
+  decorators: [(story) => <div className="bg-cyan-400 p-14">{story()}</div>],
 }
 
 export default meta

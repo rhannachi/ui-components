@@ -4,6 +4,7 @@ import Checkbox, { COLORS_CHECKBOX, SIZES_CHECKBOX } from "./Checkbox"
 const meta: Meta<typeof Checkbox> = {
   component: Checkbox,
   title: 'atoms/Checkbox',
+  decorators: [(story) => <div className="p-14">{story()}</div>],
 }
 export default meta
 type Story = StoryObj<typeof Checkbox>;
