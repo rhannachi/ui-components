@@ -1,8 +1,7 @@
 import Task from './Task'
 import { Meta, StoryObj } from "@storybook/react"
-import Incrementor from "@/examples/Incrementor/Incrementor"
 
-const meta: Meta<typeof Incrementor> = {
+const meta: Meta<typeof Task> = {
   component: Task,
   title: 'molecules/Task',
   decorators: [(story) => <div className="bg-cyan-400 p-10">{story()}</div>],

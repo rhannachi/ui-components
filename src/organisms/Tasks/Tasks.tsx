@@ -1,5 +1,6 @@
 import React from 'react'
 import Task, { TaskProps } from "@/molecules/Task/Task"
+import TaskSkeleton from "@/molecules/TaskSkeleton/TaskSkeleton"
 
 type TasksProps = Pick<TaskProps, 'onPinTask' | 'onArchiveTask'> & {
   tasks: TaskProps['task'][],
@@ -12,7 +13,14 @@ const Tasks = ({ loading, tasks, onPinTask, onArchiveTask }: TasksProps) => {
   }
 
   if (loading) {
-    return <div>loading</div>
+    return <div>
+      <TaskSkeleton />
+      <TaskSkeleton />
+      <TaskSkeleton />
+      <TaskSkeleton />
+      <TaskSkeleton />
+      <TaskSkeleton />
+    </div>
   }
 
   if (tasks.length === 0) {
