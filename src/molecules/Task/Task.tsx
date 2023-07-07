@@ -3,13 +3,15 @@ import clsx from "clsx"
 import { Checkbox } from "@/atoms/Checkbox"
 import { Icon } from "@/atoms/Icon"
 
+// export const TASK_STATE = ['TASK_INBOX', 'TASK_ARCHIVED', 'TASK_PINNED'] as const
+
 export type TaskProps = {
   task: {
     id: string,
     title: string,
-    state: 'TASK_INBOX' | 'TASK_ARCHIVED' | 'TASK_PINNED'
+    state: 'TASK_INBOX' | 'TASK_ARCHIVED' | 'TASK_PINNED' // typeof TASK_STATE[number]
   },
-  onArchiveTask: (id: string) => void,
+  onArchiveTask: (id: string, isArchive: boolean) => void,
   onPinTask: (id: string) => void
 }
 
@@ -20,9 +22,8 @@ export const Task = ({ task: { id, title, state }, onPinTask, onArchiveTask }: T
 
       <Checkbox
         className="mr-4"
-        disabled
         checked={state === "TASK_ARCHIVED"}
-        onChange={() => onArchiveTask(id)}
+        onChange={(isArchive) => onArchiveTask(id, isArchive)}
       />
 
       <label className="w-full" htmlFor="title">
@@ -37,13 +38,7 @@ export const Task = ({ task: { id, title, state }, onPinTask, onArchiveTask }: T
       </label>
 
       {state !== "TASK_ARCHIVED" && (
-        <button
-          className="pin-button"
-          onClick={() => onPinTask(id)}
-          id={`pinTask-${id}`}
-          aria-label={`pinTask-${id}`}
-          key={`pinTask-${id}`}
-        >
+        <button onClick={() => onPinTask(id)} >
           <Icon
             className="mb-1"
             color={state === "TASK_PINNED" ? "fill-cyan-400" : "fill-gray-200"}

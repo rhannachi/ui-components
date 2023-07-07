@@ -50,8 +50,15 @@ type CheckboxProps = Partial<Pick<HTMLInputElement, 'disabled' | 'checked' >> & 
 export const Checkbox = ({ checked = false, size = 'base', color = 'cyan', label, onChange, className, disabled, ...other }: CheckboxProps) => {
   const [myChecked, setMyChecked] = useState<boolean>(checked)
 
-  useEffect( () => setMyChecked(checked), [checked] )
-  useEffect( () => onChange && onChange(myChecked), [myChecked, onChange])
+  useEffect( () => {
+    setMyChecked(checked)
+  }, [checked])
+  useEffect( () => {
+    if (onChange) {
+      onChange(myChecked)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [myChecked])
 
   return (
     <div className={clsx(className, 'flex items-center')}>
