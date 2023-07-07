@@ -1,59 +1,8 @@
-import React, { useReducer } from "react"
+import React, { useEffect, useReducer } from "react"
 import { Task, TaskProps } from "@/molecules/Task"
 import { TaskSkeleton } from "@/molecules/TaskSkeleton"
 import { Icon } from "@/atoms/Icon"
-
-/**/
-type StateType = {
-  tasks: TaskProps['task'][]
-}
-
-// Actions
-type TaskStatePinnedActionType = {
-  type: 'STATE_PINNED_ACTION',
-  payload: { id: string }
-};
-type TaskStateArchivedActionType = {
-  type: 'STATE_ARCHIVED_ACTION', payload: { id: string, isArchive: boolean }
-};
-type ActionsType = TaskStatePinnedActionType | TaskStateArchivedActionType;
-
-// Reducer
-const taskReducer = (state: StateType, action: ActionsType): StateType => {
-
-  switch (action.type) {
-    case 'STATE_ARCHIVED_ACTION': {
-        return {
-          ...state,
-          tasks: state.tasks.map((task) => {
-            if (action.payload.id === task.id) {
-              return {
-                ...task,
-                state: action.payload.isArchive ? 'TASK_ARCHIVED' : 'TASK_INBOX'
-              }
-            }
-            return task
-          })
-        }
-    }
-    case 'STATE_PINNED_ACTION': {
-      return {
-        ...state,
-        tasks: state.tasks.map((task) => {
-          if (action.payload.id === task.id) {
-            return {
-              ...task,
-              state: task.state === 'TASK_PINNED' ? 'TASK_INBOX' : 'TASK_PINNED'
-            }
-          }
-          return task
-        })
-      }
-    }
-    default:
-      return state
-  }
-}
+import taskReducer from "./Tasks.reducer"
 
 export type TasksProps = {
   tasks: TaskProps['task'][],
@@ -62,8 +11,13 @@ export type TasksProps = {
 export const Tasks = ({ tasks, loading }: TasksProps) => {
   const [state, dispatch] = useReducer(taskReducer, { tasks })
 
-  const onPinTask = (id: string) => dispatch({type: 'STATE_PINNED_ACTION', payload: { id }})
-  const onArchiveTask = (id: string, isArchive: boolean) => dispatch({type: 'STATE_ARCHIVED_ACTION', payload: {id, isArchive }})
+  useEffect(() => {
+    setTasksAction(tasks)
+  }, [tasks])
+  
+  const setTasksAction = (tasks: TaskProps['task'][]) => dispatch({type: 'SET_TASKS', payload: { tasks }})
+  const setTaskStatePinAction = (id: string) => dispatch({type: 'SET_TASK_STATE', payload: { id, action: 'onPin' }})
+  const setTaskStateArchiveAction = (id: string, isArchive: boolean) => dispatch({type: 'SET_TASK_STATE', payload: {id, action: 'onArchive', isArchive }})
 
   if (loading) {
     return <div>
@@ -87,8 +41,8 @@ export const Tasks = ({ tasks, loading }: TasksProps) => {
     <div>
       {state.tasks.map(task => (
         <Task key={task.id} task={task}
-              onPinTask={onPinTask}
-              onArchiveTask={onArchiveTask} />
+              onPinTask={setTaskStatePinAction}
+              onArchiveTask={setTaskStateArchiveAction} />
       ))}
     </div>
   )
