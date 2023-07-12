@@ -1,44 +1,7 @@
 import React, { useEffect, useState } from "react"
 import clsx from "clsx"
+import { COLORS_SVG, COLORS_BOX, SIZE_BOX, SIZE_SVG, ColorCheckBoxType, SizeCheckBoxType } from "./types"
 
-/* SIZES */
-export const SIZES_CHECKBOX = ['sm', 'base', 'lg'] as const
-type SizeCheckBoxType = typeof SIZES_CHECKBOX[number]
-
-const SIZE_BOX : Readonly<Record<SizeCheckBoxType, string>> = {
-  'sm' : 'w-4 h-4',
-  'base' : 'w-5 h-5',
-  'lg' : 'w-6 h-6'
-}
-
-const SIZE_SVG : Readonly<Record<SizeCheckBoxType, string>> = {
-  'sm' : 'w-2 h-2',
-  'base' : 'w-3 h-3',
-  'lg': 'w-4 h-4'
-}
-
-/* COLORS */
-export const COLORS_CHECKBOX = [
-  'cyan',
-  'red',
-  'gray',
-] as const
-
-type ColorCheckBoxType = typeof COLORS_CHECKBOX[number]
-
-const COLORS_BOX : Readonly<Record<ColorCheckBoxType, string>> = {
-  'cyan' : 'border-cyan-400',
-  'red' : 'border-red-400',
-  'gray' : 'border-gray-400'
-}
-
-const COLORS_SVG : Readonly<Record<ColorCheckBoxType, string>> = {
-  'cyan' : 'fill-cyan-400',
-  'red' : 'fill-red-400',
-  'gray' : 'fill-gray-400'
-}
-
-/* PROPS */
 type CheckboxProps = Partial<Pick<HTMLInputElement, 'disabled' | 'checked' >> & {
   label?: string
   color?: ColorCheckBoxType
