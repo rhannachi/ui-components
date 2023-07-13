@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import clsx from "clsx"
 import { Checkbox } from "@/atoms/Checkbox"
 import { Icon } from "@/atoms/Icon"
