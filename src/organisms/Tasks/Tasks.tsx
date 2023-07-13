@@ -1,11 +1,11 @@
 import React, { useEffect, useReducer } from "react"
-import { Task, TaskProps } from "@/molecules/Task"
+import { Task, TaskType } from "@/molecules/Task"
 import { TaskSkeleton } from "@/molecules/TaskSkeleton"
 import { Icon } from "@/atoms/Icon"
 import taskReducer from "./Tasks.reducer"
 
 export type TasksProps = {
-  tasks: TaskProps['task'][],
+  tasks: TaskType[],
   loading?: boolean
 }
 export const Tasks = ({ tasks, loading }: TasksProps) => {
@@ -15,7 +15,7 @@ export const Tasks = ({ tasks, loading }: TasksProps) => {
     setTasksAction(tasks)
   }, [tasks])
   
-  const setTasksAction = (tasks: TaskProps['task'][]) => dispatch({type: 'SET_TASKS', payload: { tasks }})
+  const setTasksAction = (tasks: TaskType[]) => dispatch({type: 'SET_TASKS', payload: { tasks }})
   const setTaskStatePinAction = (id: string) => dispatch({type: 'SET_TASK_STATE', payload: { id, action: 'onPin' }})
   const setTaskStateArchiveAction = (id: string, isArchive: boolean) => dispatch({type: 'SET_TASK_STATE', payload: {id, action: 'onArchive', isArchive }})
 
@@ -38,12 +38,10 @@ export const Tasks = ({ tasks, loading }: TasksProps) => {
   }
 
   return (
-    <div>
-      {state.tasks.map(task => (
+      state.tasks.map(task => (
         <Task key={task.id} task={task}
               onPinTask={setTaskStatePinAction}
               onArchiveTask={setTaskStateArchiveAction} />
-      ))}
-    </div>
+      ))
   )
 }

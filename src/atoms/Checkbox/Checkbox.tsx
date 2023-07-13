@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react"
+import React, { AriaRole, useEffect, useState } from "react"
 import clsx from "clsx"
 import { COLORS_SVG, COLORS_BOX, SIZE_BOX, SIZE_SVG, ColorCheckBoxType, SizeCheckBoxType } from "./types"
 
-type CheckboxProps = Partial<Pick<HTMLInputElement, 'disabled' | 'checked' >> & {
+type CheckboxProps = Partial<Pick<HTMLInputElement, 'disabled' | 'checked'>> & {
   label?: string
   color?: ColorCheckBoxType
   size?: SizeCheckBoxType
   onChange?: (checked: boolean) => void
   className?: string
+  role?: AriaRole
 }
 
 export const Checkbox = ({ checked = false, size = 'base', color = 'cyan', label, onChange, className, disabled, ...other }: CheckboxProps) => {
@@ -25,12 +26,13 @@ export const Checkbox = ({ checked = false, size = 'base', color = 'cyan', label
 
   return (
     <div className={clsx(className, 'flex items-center')}>
-        <input {...other}
+        <input
                  disabled={disabled}
                  type="checkbox"
                  onChange={() => setMyChecked(!myChecked)}
                  checked={myChecked}
-                 className={clsx(SIZE_BOX[size],"opacity-0 absolute")} />
+                 className={clsx(SIZE_BOX[size],"opacity-0 absolute")}
+                 {...other} />
           <div className={clsx( disabled ? 'border-gray-200' :  COLORS_BOX[color], SIZE_BOX[size],"bg-white border-2 rounded flex flex-shrink-0 justify-center items-center")}>
             <svg className={clsx(SIZE_SVG[size] , "fill-current hidden  pointer-events-none")} version="1.1"
                  viewBox="0 0 17 12" xmlns="http://www.w3.org/2000/svg">

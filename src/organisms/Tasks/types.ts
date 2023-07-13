@@ -1,14 +1,14 @@
-import { TaskProps } from "@/molecules/Task"
+import { TaskType } from "@/molecules/Task"
 
 export type StateType = {
-  tasks: TaskProps['task'][]
+  tasks: TaskType[]
 }
 
 // Actions
 type SetTasksActionType = {
   type: 'SET_TASKS',
   payload: {
-    tasks: TaskProps['task'][]
+    tasks: TaskType[]
   }
 };
 
