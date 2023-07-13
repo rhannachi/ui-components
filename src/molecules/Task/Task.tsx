@@ -38,8 +38,9 @@ export const Task = ({ task: { id, title, state }, onPinTask, onArchiveTask }: T
       />
 
       {state !== "TASK_ARCHIVED" && (
-        <button role="icon-task" onClick={() => onPinTask(id)} >
+        <button role="button-icon-task" onClick={() => onPinTask(id)} >
           <Icon
+            role="icon-task"
             className="mb-1"
             color={state === "TASK_PINNED" ? "fill-cyan-400" : "fill-gray-200"}
             icon="star-full"

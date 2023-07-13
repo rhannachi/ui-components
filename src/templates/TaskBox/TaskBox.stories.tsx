@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react"
 import { expect } from '@storybook/jest'
-import { screen, findByRole, fireEvent, prettyDOM, queryByRole, userEvent, waitFor, within } from "@storybook/testing-library"
+import { findByRole, queryByRole, userEvent, waitFor, within } from "@storybook/testing-library"
 import { TasksBox } from './TaskBox'
 import { TaskType } from "@/molecules/Task"
 
@@ -28,11 +28,12 @@ export const Default: Story = {
   },
   play: async ({ args, canvasElement, step })  => {
     const canvas = within(canvasElement)
-    await step('Verify that the Tasks are displayed correctly.', async () => {
+    await step('👇 Verify that the Tasks are displayed correctly.', async () => {
       // TODO improvement - forof to test.each
       for (const { id } of args.tasks ) {
         const task = await  canvas.getByTestId(`task-${id}`)
         await expect(task).toBeInTheDocument()
+        // console.log(prettyDOM(canvasElement))
       }
     })
   }
@@ -44,20 +45,21 @@ export const UnpinTask: Story = {
   },
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement)
-    // console.log(prettyDOM(canvasElement))
-    await step('Retrieve the first Task', async () => {
+
+    await step('👇 Get the first Task "task-1" ', async () => {
       const task = await  canvas.getByTestId(`task-1`)
       await expect(task).toBeInTheDocument()
-      let pinButton: HTMLInputElement
 
-      await step('Search for the icon and verify that it has the correct cyan color.', async () => {
-        pinButton = await findByRole(task, 'icon-task')
-        await expect(pinButton.getElementsByClassName('fill-cyan-400').length).toBe(1)
-      })
+      await step('👇 Search for the "button-icon-task" button', async () => {
+        const button = await findByRole(task, 'button-icon-task')
+        await expect(button).toBeInTheDocument()
 
-      await step('Click on the Pin icon and verify that it changes color to gray', async () => {
-        await userEvent.click(pinButton, { detail: 100 })
-        await expect(pinButton.getElementsByClassName('fill-gray-200').length).toBe(1)
+        await step('👇 Click on the Pin icon and verify that it changes color from "cyan-400" to "gray-200"', async () => {
+          const icon: HTMLElement = await findByRole(button, 'icon-task')
+          await expect(icon.classList).toContain('fill-cyan-400')
+          await userEvent.click(button, { detail: 100 })
+          await expect(icon.classList).toContain('fill-gray-200')
+        })
       })
     })
   },
@@ -67,19 +69,24 @@ export const PinTask: Story = {
   args: {
     tasks: tasksMock.map((task) => ({...task, state: 'TASK_INBOX'})),
   },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement , step}) => {
     const canvas = within(canvasElement)
-    // console.log(prettyDOM(canvasElement))
-    const task = await  canvas.getByTestId(`task-1`)
-    await expect(task).toBeInTheDocument()
-    // Find the pin button
-    const pinButton = await findByRole(task, 'icon-task')
-    // check if the color is 'cyan' (pin)
-    await expect(pinButton.getElementsByClassName('fill-gray-200').length).toBe(1)
-    // // Click the pin button
-    await userEvent.click(pinButton, { detail: 100 })
-    // check if the color is 'cyan' (unpin)
-    await expect(pinButton.getElementsByClassName('fill-cyan-400').length).toBe(1)
+
+    await step('👇 Get the first Task "task-1" ', async () => {
+      const task = await  canvas.getByTestId(`task-1`)
+      await expect(task).toBeInTheDocument()
+
+      await step('👇 Search for the "button-icon-task" button', async () => {
+        const button = await findByRole(task, 'button-icon-task')
+
+        await step('👇 Click on the Pin icon and verify that it changes color from "gray-200" to "cyan-400"', async () => {
+          const icon: HTMLElement = await findByRole(button, 'icon-task')
+          await expect(icon.classList).toContain('fill-gray-200')
+          await userEvent.click(button, { detail: 100 })
+          await expect(icon.classList).toContain('fill-cyan-400')
+        })
+      })
+    })
   },
 }
 
@@ -87,17 +94,19 @@ export const DisabledEditTask: Story = {
   args: {
     tasks: tasksMock.map((task) => ({...task, state: 'TASK_INBOX'})),
   },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement , step}) => {
     const canvas = within(canvasElement)
-    // console.log(prettyDOM(canvasElement))
-    const task = await  canvas.getByTestId(`task-1`)
-    await expect(task).toBeInTheDocument()
-    // Find the input task
-    // console.log(prettyDOM(task))
-    const input: HTMLInputElement = await findByRole(task, 'input-task')
-    // console.log(prettyDOM(taskInput))
-    await userEvent.type(input, 'Task Test', {delay: 100 } )
-    await expect(input.value).toBe('Task 1')
+
+    await step('👇 Get the first Task "task-1" ', async () => {
+      const task = await  canvas.getByTestId(`task-1`)
+      await expect(task).toBeInTheDocument()
+
+      await step('👇 Search for the input text field "input-task" and attempt to make modifications', async () => {
+        const input: HTMLInputElement = await findByRole(task, 'input-task')
+        await userEvent.type(input, 'Task Test', {delay: 100 } )
+        await expect(input.value).toBe('Task 1')
+      })
+    })
   },
 }
 
@@ -105,27 +114,30 @@ export const ArchiveTask: Story = {
   args: {
     tasks: tasksMock.map((task) => ({...task, state: 'TASK_INBOX'})),
   },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement , step}) => {
     const canvas = within(canvasElement)
-    // console.log(prettyDOM(canvasElement))
-    const task = await canvas.findByTestId(`task-1`)
-    await expect(task).toBeInTheDocument()
-    // Find the input task
-    const checkbox: HTMLInputElement = await findByRole(task, 'archive-task')
-    //
-    await expect(checkbox.checked).toBe(false)
-    //
-    const input: HTMLInputElement = await findByRole(task, 'input-task')
-    // console.log(prettyDOM(input))
-    //
-    await expect(input.className).toContain('text-gray-500')
-    //
-    await userEvent.click(checkbox, { detail: 100 })
-    await expect(checkbox).toBeChecked()
-    //
-    await waitFor(() => expect(input.className).toContain('line-through text-gray-200') )
-    //
-    await waitFor(() => expect(queryByRole(task, 'icon-task')).toBeNull())
 
+    await step('👇 Get the first Task', async () => {
+      const task = await canvas.findByTestId(`task-1`)
+      await expect(task).toBeInTheDocument()
+
+      await step('👇 Search for the checkbox and verify that it is not checked', async () => {
+        const checkbox: HTMLInputElement = await findByRole(task, 'archive-task')
+        await expect(checkbox.checked).toBe(false)
+
+        await step('👇 Search for the input text and verify that it contains the correct color "gray-500" and is not crossed out', async () => {
+          const input = await findByRole(task, 'input-task')
+          await expect(input.className).toContain('text-gray-500')
+          await expect(input.className).not.toContain('line-through')
+
+          await step('👇 Click on the checkbox, verify that the text changes to the "gray-200" color, becomes crossed out, and the button-icon-task is no longer displayed', async () => {
+            await userEvent.click(checkbox, { detail: 100 })
+            await expect(checkbox).toBeChecked()
+            await waitFor(() => expect(input.className).toContain('line-through text-gray-200') )
+            await waitFor(() => expect(queryByRole(task, 'button-icon-task')).toBeNull())
+          })
+        })
+      })
+    })
   },
 }
