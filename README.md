@@ -7,8 +7,12 @@ This is an example of a React component library created with Storybook and Tailw
 [![tailwindcss](public/made-with-tailwindcss.svg)](https://tailwindcss.com/)\
 [![atomic design system](public/made-with-storybook-atomic-design.svg)](https://bradfrost.com/blog/post/atomic-design-and-storybook/)
 
+### Workflows
 [![GitHub Workflows (Lint, Test, Build) Actions](https://github.com/rhannachi/storybook-react/actions/workflows/workflow.yml/badge.svg?branch=main)](https://github.com/rhannachi/storybook-react/actions/workflows/workflow.yml)
-[![codecov](https://codecov.io/gh/rhannachi/storybook-react/branch/main/graph/badge.svg?token=ALPEFC8BB8)](https://codecov.io/gh/rhannachi/storybook-react)
+
+### Test coverage
+[![codecov](https://codecov.io/gh/rhannachi/storybook-react/branch/main/graph/badge.svg?token=ALPEFC8BB8)](https://codecov.io/gh/rhannachi/storybook-react)\
+![alt test-coverage](https://codecov.io/gh/rhannachi/storybook-react/branch/main/graphs/sunburst.svg?token=ALPEFC8BB8)
 
 ### How to start
 `yarn start`
