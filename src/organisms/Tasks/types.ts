@@ -1,4 +1,4 @@
-import { TaskType } from "@/molecules/Task"
+import { TaskType } from '@/molecules/Task'
 
 export type StateType = {
   tasks: TaskType[]
@@ -6,11 +6,11 @@ export type StateType = {
 
 // Actions
 type SetTasksActionType = {
-  type: 'SET_TASKS',
+  type: 'SET_TASKS'
   payload: {
     tasks: TaskType[]
   }
-};
+}
 
 type OnArchivePayloadType = {
   id: string
@@ -24,8 +24,8 @@ type OnPinPayloadType = {
 }
 
 type SetTaskStateActionType = {
-  type: 'SET_TASK_STATE',
+  type: 'SET_TASK_STATE'
   payload: OnPinPayloadType | OnArchivePayloadType
-};
+}
 
-export type ActionsType = SetTaskStateActionType | SetTasksActionType;
+export type ActionsType = SetTaskStateActionType | SetTasksActionType
