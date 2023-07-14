@@ -21,7 +21,6 @@ export const Default: Story = {
     const incrementButton = await canvas.findByTestId('increment-button')
     await userEvent.click(incrementButton)
     await expect(await canvas.findByText('Button clicked 1 times')).toBeInTheDocument()
-
     // Increment again by one
     await userEvent.click(incrementButton)
     await expect(await canvas.findByText('Button clicked 2 times')).toBeInTheDocument()
