@@ -1315,7 +1315,7 @@
   resolved "https://prismamediadigital-749738944708.d.codeartifact.eu-west-1.amazonaws.com/npm/global-infra-codeartifact/@babel/regjsgen/-/regjsgen-0.8.0.tgz"
   integrity sha512-x/rqGMdzj+fWZvCOYForTghzbtqPDZ5gPwaoNGHdgDfF2QA/XZbCBp4Moo5scrkAMPhB7z26XM/AaHuIJdgauA==
 
-"@babel/runtime@^7.12.5", "@babel/runtime@^7.17.8", "@babel/runtime@^7.21.0", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.12.5", "@babel/runtime@^7.17.8", "@babel/runtime@^7.21.0", "@babel/runtime@^7.22.5", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
   version "7.22.5"
   resolved "https://prismamediadigital-749738944708.d.codeartifact.eu-west-1.amazonaws.com/npm/global-infra-codeartifact/@babel/runtime/-/runtime-7.22.5.tgz"
   integrity sha512-ecjvYlnAaZ/KVneE/OdKYBYfgXV3Ptu6zQWmgEF7vwKhQnvVS6bjMD2XYgj+SNvQ1GfK/pjgokfPkC/2CO8CuA==
@@ -2818,6 +2818,15 @@
     "@types/express" "^4.7.0"
     file-system-cache "^2.0.0"
 
+"@tanem/svg-injector@^10.1.59":
+  version "10.1.60"
+  resolved "https://prismamediadigital-749738944708.d.codeartifact.eu-west-1.amazonaws.com/npm/global-infra-codeartifact/@tanem/svg-injector/-/svg-injector-10.1.60.tgz#422ec6c4879fd4b128551744848f6c041a48a9ec"
+  integrity sha512-yzdF0f7TZI7MrMieJLu5VYEJuL0WneFCabLvBfpNWDoWikzQPW8V9tpEqHa2A4kKJDiXUzsIoqtPEvGj9xsPgQ==
+  dependencies:
+    "@babel/runtime" "^7.22.5"
+    content-type "^1.0.5"
+    tslib "^2.6.0"
+
 "@testing-library/dom@^8.3.0":
   version "8.20.1"
   resolved "https://prismamediadigital-749738944708.d.codeartifact.eu-west-1.amazonaws.com/npm/global-infra-codeartifact/@testing-library/dom/-/dom-8.20.1.tgz"
@@ -3080,7 +3089,7 @@
   resolved "https://prismamediadigital-749738944708.d.codeartifact.eu-west-1.amazonaws.com/npm/global-infra-codeartifact/@types/pretty-hrtime/-/pretty-hrtime-1.0.1.tgz"
   integrity sha512-VjID5MJb1eGKthz2qUerWT8+R4b9N+CHvGCzg9fn4kWZgaF9AhdYikQio3R7wV8YY1NsQKPaCwKz1Yff+aHNUQ==
 
-"@types/prop-types@*":
+"@types/prop-types@*", "@types/prop-types@^15.7.5":
   version "15.7.5"
   resolved "https://prismamediadigital-749738944708.d.codeartifact.eu-west-1.amazonaws.com/npm/global-infra-codeartifact/@types/prop-types/-/prop-types-15.7.5.tgz"
   integrity sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==
@@ -4093,6 +4102,11 @@ clone@^1.0.2:
   resolved "https://prismamediadigital-749738944708.d.codeartifact.eu-west-1.amazonaws.com/npm/global-infra-codeartifact/clone/-/clone-1.0.4.tgz"
   integrity sha1-2jCcwmPfFZlMaIypAheco8fNfH4=
 
+clsx@^1.2.1:
+  version "1.2.1"
+  resolved "https://prismamediadigital-749738944708.d.codeartifact.eu-west-1.amazonaws.com/npm/global-infra-codeartifact/clsx/-/clsx-1.2.1.tgz#0ddc4a20a549b59c93a4116bb26f5294ca17dc12"
+  integrity sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==
+
 co@^4.6.0:
   version "4.6.0"
   resolved "https://prismamediadigital-749738944708.d.codeartifact.eu-west-1.amazonaws.com/npm/global-infra-codeartifact/co/-/co-4.6.0.tgz"
@@ -4241,7 +4255,7 @@ content-disposition@0.5.4:
   dependencies:
     safe-buffer "5.2.1"
 
-content-type@~1.0.4:
+content-type@^1.0.5, content-type@~1.0.4:
   version "1.0.5"
   resolved "https://prismamediadigital-749738944708.d.codeartifact.eu-west-1.amazonaws.com/npm/global-infra-codeartifact/content-type/-/content-type-1.0.5.tgz"
   integrity sha512-nTjqfcBFEipKdXCv4YDQWCfmcLZKm81ldF0pAopTvyrFGVbcR6P/VAAd5G7N+0tTr8QqiU0tFadD6FK4NtJwOA==
@@ -8211,6 +8225,16 @@ react-refresh@^0.14.0:
   resolved "https://prismamediadigital-749738944708.d.codeartifact.eu-west-1.amazonaws.com/npm/global-infra-codeartifact/react-refresh/-/react-refresh-0.14.0.tgz"
   integrity sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==
 
+react-svg@^16.1.18:
+  version "16.1.18"
+  resolved "https://prismamediadigital-749738944708.d.codeartifact.eu-west-1.amazonaws.com/npm/global-infra-codeartifact/react-svg/-/react-svg-16.1.18.tgz#f157acb43e810fabed18fd0609fac7656ebca880"
+  integrity sha512-XAnrAfW03GDDD1uLEZFoEu8Ij7CkojIaNeba7KCInWnS9dFSEfFD3VbGSlKFUmkhQimfFmtJoRloowKNVJQ9gw==
+  dependencies:
+    "@babel/runtime" "^7.22.5"
+    "@tanem/svg-injector" "^10.1.59"
+    "@types/prop-types" "^15.7.5"
+    prop-types "^15.8.1"
+
 react@^18.2.0:
   version "18.2.0"
   resolved "https://prismamediadigital-749738944708.d.codeartifact.eu-west-1.amazonaws.com/npm/global-infra-codeartifact/react/-/react-18.2.0.tgz"
@@ -9245,6 +9269,11 @@ tslib@^2.0.1, tslib@^2.1.0, tslib@^2.4.0:
   version "2.5.3"
   resolved "https://prismamediadigital-749738944708.d.codeartifact.eu-west-1.amazonaws.com/npm/global-infra-codeartifact/tslib/-/tslib-2.5.3.tgz"
   integrity sha512-mSxlJJwl3BMEQCUNnxXBU9jP4JBktcEGhURcPR6VQVlnP0FdDEsIaz0C35dXNGLyRfrATNofF0F5p2KPxQgB+w==
+
+tslib@^2.6.0:
+  version "2.6.0"
+  resolved "https://prismamediadigital-749738944708.d.codeartifact.eu-west-1.amazonaws.com/npm/global-infra-codeartifact/tslib/-/tslib-2.6.0.tgz#b295854684dbda164e181d259a22cd779dcd7bc3"
+  integrity sha512-7At1WUettjcSRHXCyYtTselblcHl9PJFFVKiCAy/bY97+BPZXSQ2wbq0P9s8tK2G7dFQfNnlJnPAiArVBVBsfA==
 
 tsutils@^3.21.0:
   version "3.21.0"
