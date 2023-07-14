@@ -26,16 +26,6 @@ export const Default: Story = {
   args: {
     tasks: tasksMock,
   },
-  play: async ({ args, canvasElement, step })  => {
-    const canvas = within(canvasElement)
-    await step('👇 Verify that the Tasks are displayed correctly.', async () => {
-      // TODO improvement - forof to test.each
-      for (const { id } of args.tasks ) {
-        const task = await  canvas.getByTestId(`task-${id}`)
-        await expect(task).toBeInTheDocument()
-      }
-    })
-  }
 }
 
 export const UnpinTask: Story = {

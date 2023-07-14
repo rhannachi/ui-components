@@ -1,5 +1,5 @@
 export const TaskSkeleton = () => (
-  <div className="bg-white border-2 border-gray-50 p-3 w-full mx-auto">
+  <div data-testid="task-skeleton" className="bg-white border-2 border-gray-50 p-3 w-full mx-auto">
     <div className="animate-pulse flex space-x-4">
 
       <div className="flex-none">
