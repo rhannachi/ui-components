@@ -124,7 +124,7 @@ jobs:
   ################################## TEST #########################################
 
   test:
-    needs: [build]
+    needs: [build, lint]
     environment:
       name: Production
     runs-on: ubuntu-latest
@@ -182,7 +182,7 @@ jobs:
   ################################## TEST #########################################
 
   deployment:
-    needs: [test, lint]
+    needs: [test]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     environment:
