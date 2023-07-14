@@ -18,8 +18,7 @@ type TaskProps = {
 export const Task = ({ task: { id, title, state }, onPinTask, onArchiveTask }: TaskProps) => {
 
   return (
-    <div data-testid={`task-${id}`} className="flex flex-row p-3 bg-white border-2 border-gray-50">
-
+    <div role="task" data-testid={`task-${id}`} className="flex flex-row p-3 bg-white border-2 border-gray-50">
       <Checkbox
         role="archive-task"
         className="mr-4"
