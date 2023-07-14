@@ -33,7 +33,6 @@ export const Default: Story = {
       for (const { id } of args.tasks ) {
         const task = await  canvas.getByTestId(`task-${id}`)
         await expect(task).toBeInTheDocument()
-        // console.log(prettyDOM(canvasElement))
       }
     })
   }
