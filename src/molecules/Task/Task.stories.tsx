@@ -1,13 +1,13 @@
-import { Meta, StoryObj } from "@storybook/react"
+import { Meta, StoryObj } from '@storybook/react'
 import { Task } from './Task'
 
 const meta: Meta<typeof Task> = {
   component: Task,
   title: 'molecules/Task',
-  decorators: [(story) => <div className="bg-cyan-400 p-10">{story()}</div>],
+  decorators: [(story) => <div className='bg-cyan-400 p-10'>{story()}</div>],
 }
 export default meta
-type Story = StoryObj<typeof Task>;
+type Story = StoryObj<typeof Task>
 
 export const Default: Story = {
   args: {

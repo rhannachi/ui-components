@@ -1,7 +1,7 @@
-import React, { AriaRole, useEffect, useState } from "react"
+import React, { AriaRole, useEffect, useState } from 'react'
 import { ReactSVG } from 'react-svg'
 import clsx from 'clsx'
-import { SizeIconType, ColorIconType, IconType, SIZES } from "./types"
+import { SizeIconType, ColorIconType, IconType, SIZES } from './types'
 
 /* PROPS */
 type IconProps = {
@@ -16,7 +16,13 @@ const importIcon = async (icon: IconType): Promise<string | { src: string }> => 
   return (await import(`./svgs/${icon}.svg`)).default
 }
 
-export const Icon = ({ icon, size = 'base', color = 'fill-black', className = '', role }: IconProps) => {
+export const Icon = ({
+  icon,
+  size = 'base',
+  color = 'fill-black',
+  className = '',
+  role,
+}: IconProps) => {
   const [iconSrc, setIconSrc] = useState<string>('')
 
   useEffect(() => {
@@ -35,10 +41,9 @@ export const Icon = ({ icon, size = 'base', color = 'fill-black', className = ''
     <ReactSVG
       role={role}
       className={clsx(color, SIZES[size], className, 'inline')}
-      wrapper="svg"
+      wrapper='svg'
       // loading={() => <span>is loading ...</span>}
       src={iconSrc}
     />
   )
 }
-
