@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-yarn format && yarn lint:fix
+# TODO fix this "gitkraken"
+# yarn format && yarn lint:fix
 
