@@ -5,12 +5,6 @@ import { Icon } from './Icon'
 const meta: Meta<typeof Icon> = {
   component: Icon,
   title: 'atoms/Icon',
-  decorators: [(story) => <div className='p-14'>{story()}</div>],
-}
-export default meta
-type Story = StoryObj<typeof Icon>
-
-export const Default: Story = {
   argTypes: {
     icon: {
       options: ICONS,
@@ -25,6 +19,12 @@ export const Default: Story = {
       control: 'select',
     },
   },
+  decorators: [(story) => <div className='p-14'>{story()}</div>],
+}
+export default meta
+type Story = StoryObj<typeof Icon>
+
+export const Default: Story = {
   args: {
     icon: 'star',
     size: 'base',
