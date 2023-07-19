@@ -33,7 +33,7 @@ jobs:
           node-version: '16.x'
           cache: yarn
       - name: Install dependencies
-        run: yarn install --no-lockfile
+        run: yarn install
         # 👇 Adds Chromatic as a step in the workflow
       - name: Publish to Chromatic
         id: chromatic

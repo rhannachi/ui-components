@@ -44,7 +44,7 @@ jobs:
           cache: yarn
 
       - name: Install dependencies
-        run: yarn install --no-lockfile
+        run: yarn install
 
       - name: zip node_modules
         run: tar -czf node_modules.tar.gz ./node_modules
