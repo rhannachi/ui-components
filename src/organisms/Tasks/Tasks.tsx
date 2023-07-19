@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react'
+import { useEffect, useReducer } from 'react'
 import { Task, TaskType } from '@/molecules/Task'
 import { TaskSkeleton } from '@/molecules/TaskSkeleton'
 import { Icon } from '@/atoms/Icon'

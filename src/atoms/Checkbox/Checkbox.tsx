@@ -1,4 +1,4 @@
-import React, { AriaRole, useEffect, useState } from 'react'
+import { AriaRole, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import {
   COLORS_SVG,
