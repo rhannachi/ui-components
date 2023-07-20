@@ -6,12 +6,12 @@
     "start": "storybook dev -p 6006",
     "build": "storybook build --quiet",
     "ts:check": "tsc --noemit",
-    "lint": "yarn eslint src --ext .ts,.tsx,.json",
+    "lint": "pnpm eslint src --ext .ts,.tsx,.json",
     "lint:fix": "eslint --fix src --ext .ts,.tsx,.json",
     "format": "prettier --write 'src/**/*.{ts,tsx,css,md,json}' --config ./.prettierrc",
-    "test-coverage:ci": "npx concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx http-server storybook-static --port 6006 --silent\" \"npx wait-on tcp:6006 && yarn test:coverage\"",
-    "test": "yarn test-storybook",
-    "test:coverage": "yarn test-storybook --coverage"
+    "test-coverage:ci": "npx concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx http-server storybook-static --port 6006 --silent\" \"npx wait-on tcp:6006 && pnpm test:coverage\"",
+    "test": "pnpm test-storybook",
+    "test:coverage": "pnpm test-storybook --coverage"
   },
   "dependencies": {
     "clsx": "^1.2.1",
