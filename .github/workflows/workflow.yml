@@ -37,14 +37,19 @@ jobs:
     name: Install dependencies
     steps:
       - uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - name: Step Node
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-          cache: yarn
+          cache: pnpm
 
       - name: Install dependencies
-        run: yarn install
+        run: pnpm install
 
       - name: zip node_modules
         run: tar -czf node_modules.tar.gz ./node_modules
@@ -64,11 +69,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - name: Step Node
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-          cache: yarn
+          cache: pnpm
 
       - name: Load artifact node_modules
         uses: actions/download-artifact@v3
@@ -80,10 +89,10 @@ jobs:
 
       - name: Lint and ts check
         run: |
-          yarn ts:check
-          yarn lint
+          pnpm ts:check
+          pnpm lint
 #      - name: Dependency validation
-#        run: yarn dependency:validation
+#        run: pnpm dependency:validation
 
 
   ###################################### BUILD #####################################
@@ -95,11 +104,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - name: Step Node
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-          cache: yarn
+          cache: pnpm
 
       - name: Load artifact node_modules
         uses: actions/download-artifact@v3
@@ -110,7 +123,7 @@ jobs:
         run: tar -xzf node_modules.tar.gz
 
       - name: Build Storybook
-        run: yarn build
+        run: pnpm build
 
       - name: zip storybook-static
         run: tar -czf storybook-static.tar.gz ./storybook-static
@@ -133,11 +146,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - name: Step Node
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-          cache: yarn
+          cache: pnpm
 
       - name: Load artifact node_modules
         uses: actions/download-artifact@v3
@@ -159,7 +176,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Test CI
-        run: yarn test-coverage:ci
+        run: pnpm test-coverage:ci
 
       - name: zip coverage
         run: tar -czf coverage.tar.gz ./coverage
@@ -192,11 +209,15 @@ jobs:
         with:
           fetch-depth: 0 # 👈 Required to retrieve git history
 
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - name: Step Node
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-          cache: yarn
+          cache: pnpm
 
       - name: Load artifact node_modules
         uses: actions/download-artifact@v3
