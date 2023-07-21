@@ -197,7 +197,7 @@ jobs:
           files: ./coverage/storybook/coverage-storybook.json
           verbose: true
 
-  ################################## DEPLOYMENT #########################################
+  ################################## DEPLOYMENT ########################################
 
   deployment:
     needs: [test]

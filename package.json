@@ -14,10 +14,8 @@
     "test:coverage": "pnpm test-storybook --coverage"
   },
   "dependencies": {
-    "clsx": "^1.2.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-svg": "^16.1.18"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^7.0.22",
@@ -39,6 +37,7 @@
     "@typescript-eslint/parser": "^6.0.0",
     "autoprefixer": "^10.4.14",
     "chromatic": "^6.19.8",
+    "clsx": "^2.0.0",
     "concurrently": "^8.2.0",
     "eslint": "^8.45.0",
     "eslint-config-prettier": "^8.8.0",
@@ -52,6 +51,7 @@
     "nyc": "^15.1.0",
     "postcss": "^8.4.24",
     "prettier": "^3.0.0",
+    "react-svg": "^16.1.19",
     "sass": "^1.63.4",
     "start-server-and-test": "^2.0.0",
     "storybook": "^7.0.22",
