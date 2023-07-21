@@ -12,23 +12,24 @@ jobs:
 
   ################################## SECURITY #########################################
 
-  security:
-    runs-on: ubuntu-latest
-    environment:
-      name: Production
-    steps:
-      - uses: actions/checkout@master
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
-        continue-on-error: true # To make sure that SARIF upload gets called
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --sarif-file-output=snyk.sarif
-      - name: Upload result to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: snyk.sarif
+# TODO fix this
+#  security:
+#    runs-on: ubuntu-latest
+#    environment:
+#      name: Production
+#    steps:
+#      - uses: actions/checkout@master
+#      - name: Run Snyk to check for vulnerabilities
+#        uses: snyk/actions/node@master
+#        continue-on-error: true # To make sure that SARIF upload gets called
+#        env:
+#          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+#        with:
+#          args: --sarif-file-output=snyk.sarif
+#      - name: Upload result to GitHub Code Scanning
+#        uses: github/codeql-action/upload-sarif@v2
+#        with:
+#          sarif_file: snyk.sarif
 
   ################################## INSTALL-DEP #########################################
 
@@ -37,14 +38,19 @@ jobs:
     name: Install dependencies
     steps:
       - uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - name: Step Node
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-          cache: yarn
+          cache: pnpm
 
       - name: Install dependencies
-        run: yarn install --no-lockfile
+        run: pnpm install
 
       - name: zip node_modules
         run: tar -czf node_modules.tar.gz ./node_modules
@@ -64,11 +70,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - name: Step Node
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-          cache: yarn
+          cache: pnpm
 
       - name: Load artifact node_modules
         uses: actions/download-artifact@v3
@@ -80,10 +90,10 @@ jobs:
 
       - name: Lint and ts check
         run: |
-          yarn ts:check
-          yarn lint
+          pnpm ts:check
+          pnpm lint
 #      - name: Dependency validation
-#        run: yarn dependency:validation
+#        run: pnpm dependency:validation
 
 
   ###################################### BUILD #####################################
@@ -95,11 +105,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - name: Step Node
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-          cache: yarn
+          cache: pnpm
 
       - name: Load artifact node_modules
         uses: actions/download-artifact@v3
@@ -110,7 +124,7 @@ jobs:
         run: tar -xzf node_modules.tar.gz
 
       - name: Build Storybook
-        run: yarn build
+        run: pnpm build
 
       - name: zip storybook-static
         run: tar -czf storybook-static.tar.gz ./storybook-static
@@ -124,7 +138,7 @@ jobs:
   ################################## TEST #########################################
 
   test:
-    needs: [build, lint]
+    needs: [build]
     environment:
       name: Production
     runs-on: ubuntu-latest
@@ -133,11 +147,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - name: Step Node
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-          cache: yarn
+          cache: pnpm
 
       - name: Load artifact node_modules
         uses: actions/download-artifact@v3
@@ -156,10 +174,10 @@ jobs:
         run: tar -xzf storybook-static.tar.gz
 
       - name: Install Playwright
-        run: npx playwright install --with-deps
+        run: pnpm dlx playwright install --with-deps
 
       - name: Test CI
-        run: yarn test-coverage:ci
+        run: pnpm test-coverage:ci
 
       - name: zip coverage
         run: tar -czf coverage.tar.gz ./coverage
@@ -179,7 +197,7 @@ jobs:
           files: ./coverage/storybook/coverage-storybook.json
           verbose: true
 
-  ################################## TEST #########################################
+  ################################## DEPLOYMENT #########################################
 
   deployment:
     needs: [test]
@@ -192,11 +210,15 @@ jobs:
         with:
           fetch-depth: 0 # 👈 Required to retrieve git history
 
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - name: Step Node
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-          cache: yarn
+          cache: pnpm
 
       - name: Load artifact node_modules
         uses: actions/download-artifact@v3

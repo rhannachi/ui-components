@@ -6,13 +6,8 @@ module.exports = {
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
-    "@storybook/addon-coverage",
-    {
-      name: '@storybook/addon-styling',
-      options: {
-        postCss: true,
-      },
-    },
+    '@storybook/addon-coverage',
+    '@storybook/addon-styling',
   ],
   framework: {
     name: '@storybook/react-vite',
@@ -28,8 +23,8 @@ module.exports = {
   viteFinal: async (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@': path.join(__dirname, '../src/')
+      '@': path.join(__dirname, '../src/'),
     }
     return config
-  }
-};
+  },
+}

@@ -4,6 +4,10 @@ import { Task } from './Task'
 const meta: Meta<typeof Task> = {
   component: Task,
   title: 'molecules/Task',
+  argTypes: {
+    onPinTask: { action: 'onPinTask' },
+    onArchiveTask: { action: 'onArchiveTask' },
+  },
   decorators: [(story) => <div className='bg-cyan-400 p-10'>{story()}</div>],
 }
 export default meta

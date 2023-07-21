@@ -6,6 +6,9 @@ import { expect } from '@storybook/jest'
 const meta: Meta<typeof Tasks> = {
   component: Tasks,
   title: 'organisms/Tasks',
+  argTypes: {
+    loading: { control: 'boolean' },
+  },
   decorators: [(story) => <div className='bg-cyan-400 p-14'>{story()}</div>],
 }
 

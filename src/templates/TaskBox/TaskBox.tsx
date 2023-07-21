@@ -1,4 +1,3 @@
-import React from 'react'
 import { Tasks, TasksProps } from '@/organisms/Tasks'
 
 type TasksBoxProps = {
