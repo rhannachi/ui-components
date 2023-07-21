@@ -106,6 +106,9 @@ devDependencies:
   husky:
     specifier: ^8.0.3
     version: 8.0.3
+  nyc:
+    specifier: ^15.1.0
+    version: 15.1.0
   postcss:
     specifier: ^8.4.24
     version: 8.4.24
