@@ -137,7 +137,7 @@ jobs:
   ################################## TEST #########################################
 
   test:
-    needs: [build, lint]
+    needs: [build]
     environment:
       name: Production
     runs-on: ubuntu-latest
@@ -173,7 +173,7 @@ jobs:
         run: tar -xzf storybook-static.tar.gz
 
       - name: Install Playwright
-        run: npx playwright install --with-deps
+        run: pnpm dlx playwright install --with-deps
 
       - name: Test CI
         run: pnpm test-coverage:ci
@@ -196,7 +196,7 @@ jobs:
           files: ./coverage/storybook/coverage-storybook.json
           verbose: true
 
-  ################################## TEST #########################################
+  ################################## DEPLOYMENT #########################################
 
   deployment:
     needs: [test]
