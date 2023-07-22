@@ -126,6 +126,9 @@ jobs:
       - name: Build Storybook
         run: pnpm build
 
+      - name: Build Rollup Storybook
+        run: pnpm build:rollup
+
       - name: zip storybook-static
         run: tar -czf storybook-static.tar.gz ./storybook-static
 
@@ -252,6 +255,10 @@ jobs:
 
       - name: Prepare repository
         run: git fetch --unshallow --tags
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
 
       - name: Step Node
         uses: actions/setup-node@v3
