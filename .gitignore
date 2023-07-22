@@ -69,3 +69,5 @@ compile
 build-storybook.log
 packages/fds-tokens/dist
 storybook-static
+.env
+
