@@ -1,12 +1,16 @@
 {
-  "name": "storybook-react",
+  "name": "@rhannachi/components",
   "author": "rhannachi",
   "version": "1.0.0",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
+  "repository": "https://github.com/rhannachi/storybook-react.git",
+  "description": "Storybook design systems",
   "scripts": {
     "start": "storybook dev -p 6006",
     "build:rollup": "rollup -c",
@@ -46,6 +50,7 @@
     "@types/testing-library__jest-dom": "^5.14.8",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
+    "auto": "^10.46.0",
     "autoprefixer": "^10.4.14",
     "chromatic": "^6.19.8",
     "clsx": "^2.0.0",
