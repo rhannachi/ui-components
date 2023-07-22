@@ -1,7 +1,12 @@
 name: GitHub Workflows (Lint, Test, Build) Actions
 
 # run workflow manually or during PR
-on: [push, workflow_dispatch]
+on:
+  push:
+    tags:
+      - '!**'
+    branches:
+      - '**'
 
 # Allow one concurrent deployment
 # concurrency:
@@ -126,6 +131,9 @@ jobs:
       - name: Build Storybook
         run: pnpm build
 
+      - name: Build Rollup Storybook
+        run: pnpm build:rollup
+
       - name: zip storybook-static
         run: tar -czf storybook-static.tar.gz ./storybook-static
 
@@ -201,6 +209,7 @@ jobs:
 
   deployment:
     needs: [test]
+    name: "Deploy on Chromatic"
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     environment:
@@ -239,19 +248,23 @@ jobs:
       - name: Publish Summary
         run: echo -e "| Results |  |\n| --- | --- |\n| Build Results | ${{steps.chromatic.outputs.buildUrl}} |\n| Storybook Preview | ${{steps.chromatic.outputs.storybookUrl}} |\n| Component Count | ${{steps.chromatic.outputs.componentCount}} |" >> $GITHUB_STEP_SUMMARY
 
-  ################################## Release #########################################
+  ################################## Tag Main #########################################
 
-  release:
-    needs: [ deployment ]
+  extract-version:
+    needs: [ test ]
+    name: "Extract version (package.json)"
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     environment:
       name: Production
+    outputs:
+      version: ${{ steps.get-version.outputs.version }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Prepare repository
-        run: git fetch --unshallow --tags
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
 
       - name: Step Node
         uses: actions/setup-node@v3
@@ -259,8 +272,62 @@ jobs:
           node-version: '16.x'
           cache: pnpm
 
-      - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+      - name: Get version
+        id: get-version
+        run: | 
+          version=v$(pnpm pkg get version | tr -d '"')
+          echo "version=$version" >> $GITHUB_OUTPUT
+          echo "====> $version"
+        shell: bash
+
+  create-tag:
+    needs: [ extract-version ]
+    name: "Create Tag"
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: Production
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: rickstaa/action-create-tag@v1
+        id: create-tag
+        with:
+          tag: ${{ needs.extract-version.outputs.version }}
+          tag_exists_error: false
+          message: ${{ needs.extract-version.outputs.version }}
+      - run: |
+          echo "Tag already present: ${{ steps.create-tag.outputs.tag_exists }}"
+
+  release:
+    needs: [ create-tag ]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: Production
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Prepare repository
+        run: git fetch --unshallow --tags
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Step Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          cache: pnpm
+
+      - name: Load artifact node_modules
+        uses: actions/download-artifact@v3
+        with:
+          name: my_node_modules_artifact
+
+      - name: unzip node_modules
+        run: tar -xzf node_modules.tar.gz
 
       - name: Create Release
         env:

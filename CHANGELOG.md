@@ -1,3 +1,9 @@
+# v1.1.3 (Sat Jul 22 2023)
+
+- Update CI to automatically integrate releases.
+
+#### Authors: 1
+
 # v1.1.2 (Sat Jul 22 2023)
 
 - Update CI to automatically integrate releases.
