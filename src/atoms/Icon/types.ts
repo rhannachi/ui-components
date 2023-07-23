@@ -49,6 +49,7 @@ export type IconType = (typeof ICONS)[number]
 
 /* COLORS */
 export const COLORS_ICON = [
+  'fill-emerald-500',
   'fill-gray-200',
   'fill-gray-300',
   'fill-gray-400',

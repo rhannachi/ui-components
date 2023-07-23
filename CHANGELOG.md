@@ -1,3 +1,9 @@
+# v1.1.4 (Sat Jul 23 2023)
+
+- add new colors for `Icon`.
+
+#### Authors: 1
+
 # v1.1.3 (Sat Jul 22 2023)
 
 - Update CI to automatically integrate releases.
