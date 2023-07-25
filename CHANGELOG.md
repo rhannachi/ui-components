@@ -1,27 +1,30 @@
-# v1.1.4 (Sat Jul 23 2023)
+# Changelog
 
-- add new colors for `Icon`.
+All notable changes to this project will be documented in this file.
 
-#### Authors: 1
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-# v1.1.3 (Sat Jul 22 2023)
+## [1.1.4] - 2023-07-25
+### Features
+* add new colors for `Icon`.
+### Contributors to this release
+* Ramzi Hannachi ([@rhannachi](https://github.com/rhannachi))
 
-- Update CI to automatically integrate releases.
+## [1.1.3] - 2023-07-23
+### Chores
+* Update CI to automatically integrate releases.
+### Contributors to this release
+* Ramzi Hannachi ([@rhannachi](https://github.com/rhannachi))
 
-#### Authors: 1
+## [1.1.2] - 2023-07-23
+### Chores
+* Update CI to automatically integrate releases.
+### Contributors to this release
+* Ramzi Hannachi ([@rhannachi](https://github.com/rhannachi))
 
-# v1.1.2 (Sat Jul 22 2023)
-
-- Update CI to automatically integrate releases.
-
-#### Authors: 1
-
-- Ramzi Hannachi ([@rhannachi](https://github.com/rhannachi))
-
-# v1.1.1 (Sat Jul 22 2023)
-
-- Created first version of the design system, with `Checkbox`, `Icon`, `Task`, `TaskSkeleton`, `TasksBox` and `Tasks` components.
-
-#### Authors: 1
-
-- Ramzi Hannachi ([@rhannachi](https://github.com/rhannachi))
+## [1.1.1] - 2023-07-23
+### Features
+* Created first version of the design system, with `Checkbox`, `Icon`, `Task`, `TaskSkeleton`, `TasksBox` and `Tasks` components.
+### Contributors to this release
+* Ramzi Hannachi ([@rhannachi](https://github.com/rhannachi))

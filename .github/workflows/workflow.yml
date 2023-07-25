@@ -205,11 +205,74 @@ jobs:
           files: ./coverage/storybook/coverage-storybook.json
           verbose: true
 
+  ################################## RELEASE #########################################
+
+  release:
+    needs: [ test ]
+    name: "Release GitHub"
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: Production
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Step Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          cache: pnpm
+
+      - name: Load artifact node_modules
+        uses: actions/download-artifact@v3
+        with:
+          name: my_node_modules_artifact
+
+      - name: Unzip node_modules
+        run: tar -xzf node_modules.tar.gz
+
+      - name: Get package version
+        id: get-version
+        run: |
+          version=v$(pnpm pkg get version | tr -d '"')
+          echo "version=$version" >> $GITHUB_OUTPUT
+          echo "====> $version"
+        shell: bash
+
+      - name: "Create Tag ${{ steps.get-version.outputs.version }}"
+        uses: rickstaa/action-create-tag@v1
+        id: create-tag
+        with:
+          tag: ${{ steps.get-version.outputs.version }}
+          tag_exists_error: false
+          message: ${{ steps.get-version.outputs.version }}
+      - run: |
+          echo "Tag already present: ${{ steps.create-tag.outputs.tag_exists }}"
+
+      - name: Extract release notes from CHANGELOG.md
+        id: extract-release-notes
+        uses: ffurrer2/extract-release-notes@v1
+        with:
+          changelog_file: CHANGELOG.md
+
+      - name: "Create a GitHub release ${{ steps.get-version.outputs.version }}"
+        uses: ncipollo/release-action@v1
+        with:
+          tag: "${{ steps.get-version.outputs.version }}"
+          name: "Release ${{ steps.get-version.outputs.version }}"
+          body: |
+            ## Release notes:
+            ${{ steps.extract-release-notes.outputs.release_notes }}
+
   ################################## DEPLOYMENT ########################################
 
-  deployment:
-    needs: [test]
-    name: "Deploy on Chromatic"
+  publish:
+    needs: [release]
+    name: "Publish to Chromatic and NPM"
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     environment:
@@ -237,6 +300,11 @@ jobs:
       - name: unzip node_modules
         run: tar -xzf node_modules.tar.gz
 
+      - name: Publish to NPM
+        run: pnpm publish --access=public --no-git-checks
+        env:
+          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
+
       - name: Publish to Chromatic
         id: chromatic
         uses: chromaui/action@v1
@@ -245,93 +313,5 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           buildScriptName: build
 
-      - name: Publish Summary
+      - name: Publish Chromatic Summary
         run: echo -e "| Results |  |\n| --- | --- |\n| Build Results | ${{steps.chromatic.outputs.buildUrl}} |\n| Storybook Preview | ${{steps.chromatic.outputs.storybookUrl}} |\n| Component Count | ${{steps.chromatic.outputs.componentCount}} |" >> $GITHUB_STEP_SUMMARY
-
-  ################################## Tag Main #########################################
-
-  extract-version:
-    needs: [ test ]
-    name: "Extract version (package.json)"
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    environment:
-      name: Production
-    outputs:
-      version: ${{ steps.get-version.outputs.version }}
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8
-
-      - name: Step Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16.x'
-          cache: pnpm
-
-      - name: Get version
-        id: get-version
-        run: | 
-          version=v$(pnpm pkg get version | tr -d '"')
-          echo "version=$version" >> $GITHUB_OUTPUT
-          echo "====> $version"
-        shell: bash
-
-  create-tag:
-    needs: [ extract-version ]
-    name: "Create Tag"
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    environment:
-      name: Production
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: rickstaa/action-create-tag@v1
-        id: create-tag
-        with:
-          tag: ${{ needs.extract-version.outputs.version }}
-          tag_exists_error: false
-          message: ${{ needs.extract-version.outputs.version }}
-      - run: |
-          echo "Tag already present: ${{ steps.create-tag.outputs.tag_exists }}"
-
-  release:
-    needs: [ create-tag ]
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    environment:
-      name: Production
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Prepare repository
-        run: git fetch --unshallow --tags
-
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8
-
-      - name: Step Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16.x'
-          cache: pnpm
-
-      - name: Load artifact node_modules
-        uses: actions/download-artifact@v3
-        with:
-          name: my_node_modules_artifact
-
-      - name: unzip node_modules
-        run: tar -xzf node_modules.tar.gz
-
-      - name: Create Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          pnpm release
