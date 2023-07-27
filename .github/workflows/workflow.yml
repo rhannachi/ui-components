@@ -277,6 +277,8 @@ jobs:
     if: github.ref == 'refs/heads/main'
     environment:
       name: Production
+    env:
+      NPM_TOKEN: ${{secrets.NPM_TOKEN}}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -300,10 +302,11 @@ jobs:
       - name: unzip node_modules
         run: tar -xzf node_modules.tar.gz
 
+      - name: Set deployment token
+        run: pnpm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+
       - name: Publish to NPM
         run: pnpm publish --access=public --no-git-checks
-        env:
-          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
 
       - name: Publish to Chromatic
         id: chromatic
