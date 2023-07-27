@@ -137,11 +137,20 @@ jobs:
       - name: zip storybook-static
         run: tar -czf storybook-static.tar.gz ./storybook-static
 
-      - name: Upload artifact
+      - name: Upload storybook-static artifact
         uses: actions/upload-artifact@v3
         with:
           name: my_storybook-static_artifact
           path: storybook-static.tar.gz
+
+      - name: zip dist
+        run: tar -czf dist.tar.gz ./dist
+
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: my_dist_artifact
+          path: dist.tar.gz
 
   ################################## TEST #########################################
 
@@ -270,9 +279,9 @@ jobs:
 
   ################################## DEPLOYMENT ########################################
 
-  publish:
+  publish-npm:
     needs: [release]
-    name: "Publish to Chromatic and NPM"
+    name: "Publish to NPM"
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     environment:
@@ -302,11 +311,39 @@ jobs:
       - name: unzip node_modules
         run: tar -xzf node_modules.tar.gz
 
+      - name: Load artifact dist
+        uses: actions/download-artifact@v3
+        with:
+          name: my_dist_artifact
+
+      - name: unzip dist
+        run: tar -xzf dist.tar.gz
+
       - name: Set deployment token
         run: pnpm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
 
       - name: Publish to NPM
         run: pnpm publish --access=public --no-git-checks
+
+  publish-chromatic:
+    needs: [release]
+    name: "Publish to Chromatic"
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: Production
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # 👈 Required to retrieve git history
+
+      - name: Load artifact storybook-static
+        uses: actions/download-artifact@v3
+        with:
+          name: my_storybook-static_artifact
+
+      - name: unzip storybook-static
+        run: tar -xzf storybook-static.tar.gz
 
       - name: Publish to Chromatic
         id: chromatic
@@ -314,7 +351,7 @@ jobs:
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          buildScriptName: build
+          storybookBuildDir: 'storybook-static'
 
       - name: Publish Chromatic Summary
         run: echo -e "| Results |  |\n| --- | --- |\n| Build Results | ${{steps.chromatic.outputs.buildUrl}} |\n| Storybook Preview | ${{steps.chromatic.outputs.storybookUrl}} |\n| Component Count | ${{steps.chromatic.outputs.componentCount}} |" >> $GITHUB_STEP_SUMMARY
