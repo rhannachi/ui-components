@@ -1,7 +1,7 @@
 {
   "name": "@rhannachi/ui-components",
   "author": "rhannachi",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -28,7 +28,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@rhannachi/eslint-config-prettier": "^1.1.0",
+    "@rhannachi/eslint-config-prettier": "^1.1.2",
     "@rollup/plugin-commonjs": "^25.0.3",
     "@rollup/plugin-image": "^3.0.2",
     "@rollup/plugin-node-resolve": "^15.1.0",
