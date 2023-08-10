@@ -2,6 +2,7 @@
   "extends": "@rhannachi/eslint-config-prettier/tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
+    "declaration": true,
     "declarationDir": "dist",
     "baseUrl": "src",
     "rootDir": "src",
